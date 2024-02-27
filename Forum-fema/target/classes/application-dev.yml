@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/forumfema
+    username: root
+    password: oai2023
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

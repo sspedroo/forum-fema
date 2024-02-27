@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  compression:
+    enable: true
+    error:
+      include-stacktrace: never
+spring:
+  profiles:
+    active: test
+springdoc:
+  swagger-ui:
+    doc-expansion: none
+    operationsSorter: alpha
+    tagsSorter: alpha

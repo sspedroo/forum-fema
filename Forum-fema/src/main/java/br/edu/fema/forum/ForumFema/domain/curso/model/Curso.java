@@ -17,6 +17,8 @@ public class Curso {
     private String categoria;
     @Column(updatable = false, columnDefinition = "DATETIME")
     private LocalDateTime criadoEm;
+    @Column(columnDefinition = "DATETIME")
+    private LocalDateTime atualizadoEm;
 
     public Curso (){
 
@@ -28,7 +30,7 @@ public class Curso {
     }
 
     @PrePersist
-    public void executarAntesDeSalvar(){
+    private void executarAntesDeSalvar(){
         criadoEm = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
     }
 
@@ -58,6 +60,14 @@ public class Curso {
 
     public LocalDateTime getCriadoEm() {
         return criadoEm;
+    }
+
+    public LocalDateTime getAtualizadoEm() {
+        return atualizadoEm;
+    }
+
+    public void setAtualizadoEm(LocalDateTime atualizadoEm) {
+        this.atualizadoEm = atualizadoEm;
     }
 
     @Override

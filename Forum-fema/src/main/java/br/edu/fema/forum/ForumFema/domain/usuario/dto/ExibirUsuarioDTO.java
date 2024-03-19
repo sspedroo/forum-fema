@@ -1,36 +1,36 @@
-package br.edu.fema.forum.ForumFema.domain.usuario.model;
+package br.edu.fema.forum.ForumFema.domain.usuario.dto;
 
 import br.edu.fema.forum.ForumFema.domain.topico.model.Topico;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import br.edu.fema.forum.ForumFema.domain.usuario.model.Usuario;
 
-@Entity
-@Table(name = "tb_usuario")
-public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+import java.util.List;
+
+public class ExibirUsuarioDTO {
     private Long id;
-    @Column(nullable = false)
     private String nome;
-    @Column(unique = true)
     private String email;
-    @Size(min = 6)
     private String senha;
-    @OneToMany
     private List<Topico> topicosInscritos;
 
-    public Usuario(){
-
+    public ExibirUsuarioDTO() {
     }
 
-    public Usuario(String nome, String email, String senha){
+    public ExibirUsuarioDTO(Long id, String nome, String email, String senha, List<Topico> topicosInscritos) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.topicosInscritos = new ArrayList<>();
+        this.topicosInscritos = topicosInscritos;
+    }
+
+    public static ExibirUsuarioDTO copiarDaEntidadeProDto(Usuario entidade){
+        ExibirUsuarioDTO usuarioDTO = new ExibirUsuarioDTO();
+        usuarioDTO.id = entidade.getId();
+        usuarioDTO.nome = entidade.getNome();
+        usuarioDTO.email = entidade.getEmail();
+        usuarioDTO.senha = entidade.getSenha();
+        usuarioDTO.topicosInscritos = entidade.getTopicosInscritos();
+        return usuarioDTO;
     }
 
     public Long getId() {
@@ -69,16 +69,7 @@ public class Usuario {
         return topicosInscritos;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        return Objects.equals(id, usuario.id) && Objects.equals(email, usuario.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email);
+    public void setTopicosInscritos(List<Topico> topicosInscritos) {
+        this.topicosInscritos = topicosInscritos;
     }
 }

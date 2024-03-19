@@ -2,7 +2,6 @@ package br.edu.fema.forum.ForumFema.domain.curso.dto;
 
 import br.edu.fema.forum.ForumFema.domain.curso.model.Curso;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ExibirCursoDTO {
@@ -10,15 +9,17 @@ public class ExibirCursoDTO {
     private String nome;
     private String categoria;
     private String criadoEm;
+    private String atualizadoEm;
 
     public ExibirCursoDTO() {
     }
 
-    public ExibirCursoDTO(Long id, String nome, String categoria, String criadoEm) {
+    public ExibirCursoDTO(Long id, String nome, String categoria, String criadoEm, String atualizadoEm) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
         this.criadoEm = criadoEm;
+        this.atualizadoEm = atualizadoEm;
     }
 
     public static ExibirCursoDTO copiarDaEntidadeProDto (Curso entidade){
@@ -27,6 +28,9 @@ public class ExibirCursoDTO {
         dto.nome = entidade.getNome();
         dto.categoria = entidade.getCategoria();
         dto.criadoEm = entidade.getCriadoEm().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        dto.atualizadoEm = (entidade.getAtualizadoEm() == null) ? null : entidade.getAtualizadoEm().format(DateTimeFormatter.ofPattern("dd/MM" +
+                "/yyyy HH:mm:ss"));
+
         return dto;
     }
 
@@ -60,5 +64,13 @@ public class ExibirCursoDTO {
 
     public void setCriadoEm(String criadoEm) {
         this.criadoEm = criadoEm;
+    }
+
+    public String getAtualizadoEm() {
+        return atualizadoEm;
+    }
+
+    public void setAtualizadoEm(String atualizadoEm) {
+        this.atualizadoEm = atualizadoEm;
     }
 }

@@ -14,13 +14,18 @@ public class Resposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String mensagem;
     @ManyToOne
+    @JoinColumn(name = "topico_id")
     private Topico topico;
+    @Column(updatable = false, columnDefinition = "DATETIME")
     private LocalDateTime dataCriacao;
     @ManyToOne
     private Usuario autor;
     private Boolean solucao;
+    private Integer likes;
+
 
     public Resposta (){
 
@@ -32,6 +37,12 @@ public class Resposta {
         this.dataCriacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
         this.autor = usuario;
         this.solucao = false;
+    }
+
+    @PrePersist
+    private void executarAntesDeSalvar(){
+        dataCriacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        likes = 0;
     }
 
     public Long getId() {
@@ -80,6 +91,13 @@ public class Resposta {
 
     public void setSolucao(Boolean solucao) {
         this.solucao = solucao;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     @Override

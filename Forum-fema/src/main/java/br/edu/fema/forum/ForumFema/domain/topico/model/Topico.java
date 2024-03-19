@@ -10,12 +10,13 @@ import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity
-@Table(name = "tb_topicos")
+@Entity(name = "tb_topico")
+@Table(name = "tb_topico")
 public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String titulo;
     private String mensagem;
     @Column(columnDefinition = "DATETIME")
@@ -23,10 +24,14 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private StatusTopico status;
     @ManyToOne
+    @JoinColumn(name = "usuario_id")
     private Usuario criadoPor;
     @ManyToOne
+    @JoinColumn(name = "curso_id")
     private Curso curso;
-    @OneToMany
+
+    private Boolean arquivado;
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
     private List<Resposta> respostas;
 
     public Topico(){
@@ -41,6 +46,13 @@ public class Topico {
         this.curso = curso;
         this.criadoPor = usuario;
         this.respostas = new LinkedList<>();
+    }
+    @PrePersist
+    private void executarAntesDeSalvar(){
+        dataCriacao = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        status = StatusTopico.NAO_RESPONDIDO;
+        respostas = new LinkedList<>();
+        arquivado = false;
     }
 
     public Long getId() {
@@ -101,5 +113,13 @@ public class Topico {
 
     public List<Resposta> getRespostas() {
         return respostas;
+    }
+
+    public Boolean getArquivado() {
+        return arquivado;
+    }
+
+    public void setArquivado(Boolean arquivado) {
+        this.arquivado = arquivado;
     }
 }
